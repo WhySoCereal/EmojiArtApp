@@ -20,6 +20,23 @@ extension Collection where Element: Identifiable {
     }
 }
 
+extension Set where Element: Identifiable {
+    // Add or remove an element based on whether it's in the set or not
+    mutating func toggleMatching(_ element: Element) {
+        if self.contains(matching: element) {
+            self.remove(element)
+        } else {
+            self.insert(element)
+        }
+    }
+}
+
+extension Int: Identifiable {
+    public var id : Int {
+        self
+    }
+}
+
 extension Data {
     // just a simple converter from a Data to a String
     var utf8: String? { String(data: self, encoding: .utf8 ) }

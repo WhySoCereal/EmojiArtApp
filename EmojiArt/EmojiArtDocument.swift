@@ -12,7 +12,7 @@ import SwiftUI
 class EmojiArtDocument: ObservableObject {
     
     static let palette: String = "⛳️⚾️🛹🏌🏽‍♂️❤️🐥🙈🐶🐼⏰📺🏁😀🦕⭐️🌝🌞"
-    
+        
     // everytime the emojiArt changes, uses observable object mechanism to cause our view to draw
     // @Published // commented out - workaround for property observer problem with property wrappers
     private var emojiArt: EmojiArt {
@@ -34,8 +34,14 @@ class EmojiArtDocument: ObservableObject {
     @Published private(set) var backgroundImage: UIImage?
     
     var emojis: [EmojiArt.Emoji] { emojiArt.emojis }
+    @Published var selectedEmojiIds: Set<Int> = .init()
     
     // MARK: - Intent(s)
+    
+    func selectEmoji(_ emoji: Int) {
+        selectedEmojiIds.toggleMatching(emoji)
+    }
+    
     func addEmoji(_ emoji: String, at location: CGPoint, size: CGFloat) {
         emojiArt.addEmoji(emoji, x: Int(location.x), y: Int(location.y), size: Int(size))
     }
@@ -53,9 +59,25 @@ class EmojiArtDocument: ObservableObject {
         }
     }
     
+    func deleteSelectedEmojis() {
+        for id in selectedEmojiIds {
+            emojiArt.deleteEmoji(with: id)
+        }
+        selectedEmojiIds.removeAll()
+    }
+    
     func setBackgroundURL(_ url: URL?) {
         emojiArt.backgroundURL = url?.imageURL
         fetchBackgroundImageData()
+    }
+    
+    func getEmoji(withId id: Int) -> EmojiArt.Emoji? {
+        for emoji in emojis {
+            if emoji.id == id {
+                return emoji
+            }
+        }
+        return nil
     }
     
     // Sets the backgroundImage var
