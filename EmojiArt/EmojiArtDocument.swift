@@ -8,26 +8,37 @@
 // ViewModel
 
 import SwiftUI
+import Combine
 
-class EmojiArtDocument: ObservableObject {
+class EmojiArtDocument: ObservableObject, Hashable, Identifiable {
+    static func == (lhs: EmojiArtDocument, rhs: EmojiArtDocument) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    let id: UUID // generates something unique
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
     static let palette: String = "⛳️⚾️🛹🏌🏽‍♂️❤️🐥🙈🐶🐼⏰📺🏁😀🦕⭐️🌝🌞"
         
     // everytime the emojiArt changes, uses observable object mechanism to cause our view to draw
-    // @Published // commented out - workaround for property observer problem with property wrappers
-    private var emojiArt: EmojiArt {
-        willSet {
-            objectWillChange.send()
-        }
-        didSet {
-            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
-        }
-    }
+    @Published private var emojiArt: EmojiArt
+    @Published var steadyStatePanOffset: CGSize = .zero
+    @Published var steadyStateZoomScale: CGFloat = 1.0
     
-    private static let untitled = "EmojiArtDocument.Untitled"
+    private var autosaveCancellable: AnyCancellable?
     
-    init() {
-        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: EmojiArtDocument.untitled)) ?? EmojiArt()
+    init(id: UUID? = nil) {
+        self.id = id ?? UUID()
+        let defaultsKey = "EmojiArtDocument.\(self.id.uuidString)"
+        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: defaultsKey)) ?? EmojiArt()
+        // Link a subscriber to the emojiArt Publisher, $emojiArt is the publisher of emojiArt
+        autosaveCancellable = $emojiArt.sink { emojiArt in
+            print("\(emojiArt.json?.utf8 ?? "nil")")
+            UserDefaults.standard.set(emojiArt.json, forKey: defaultsKey)
+        }
         fetchBackgroundImageData()
     }
     
@@ -66,9 +77,15 @@ class EmojiArtDocument: ObservableObject {
         selectedEmojiIds.removeAll()
     }
     
-    func setBackgroundURL(_ url: URL?) {
-        emojiArt.backgroundURL = url?.imageURL
-        fetchBackgroundImageData()
+    var backgroundURL: URL? {
+        get {
+            emojiArt.backgroundURL
+        }
+        set {
+            emojiArt.backgroundURL = newValue?.imageURL
+            fetchBackgroundImageData()
+        }
+        
     }
     
     func getEmoji(withId id: Int) -> EmojiArt.Emoji? {
@@ -80,6 +97,8 @@ class EmojiArtDocument: ObservableObject {
         return nil
     }
     
+    private var fetchImageCancellable: AnyCancellable?
+    
     // Sets the backgroundImage var
     private func fetchBackgroundImageData() {
         // in the meantime, clear the background image
@@ -87,21 +106,31 @@ class EmojiArtDocument: ObservableObject {
         
         // use URLSession normally if downloading from the internet
         if let url = self.emojiArt.backgroundURL {
-            // try getting the data from the contents of the url
-            // try? deals with errors that Data may have thrown - if fails, it returns nil
-            // Data() could take either seconds, or minutes IT CAN'T BE BLOCKING, can't be in the main thread - users will not be able to interact with the UI
-            DispatchQueue.global(qos: .userInitiated).async {
-                // still blocking, but on a separated background queue thread
-                if let imageData = try? Data(contentsOf: url) {
-                    // changing backgroundImage in a background thread is wrong since it's published so the View will redraw therefore UI will happen in a background queue - A MISTAKE
-                    DispatchQueue.main.async {
-                        // protect against user selecting another image if the first chosen took too long
-                        if url == self.emojiArt.backgroundURL {
-                            self.backgroundImage = UIImage(data: imageData)
-                        }
-                    }
+            fetchImageCancellable?.cancel() // cancel the previous request and start a new fetch image request
+//            let session = URLSession.shared // static var for straightforward download, don't care about timeout
+//            let publisher = session.dataTaskPublisher(for: url)
+//                .map { // closure give info from existing publisher i.e data and response, takes this and maps it onto the type you'd rather it be
+//                    data, URLResponse in UIImage(data: data)
+//                }
+//                // publishes on the background threads by default - want it to be on the main queue
+//                .receive(on: DispatchQueue.main)
+//                // don't want it to publish errors so we don't have to deal with them in the sink modifier
+//                .replaceError(with: nil)
+//            // instead of sink can use publisher.assign (only works when Error is Never),
+//            fetchImageCancellable = publisher.assign(to: \.backgroundImage, on: self)
+            
+            // One-liner
+            
+            fetchImageCancellable = URLSession.shared.dataTaskPublisher(for: url)
+                .map { // closure give info from existing publisher i.e data and response, takes this and maps it onto the type you'd rather it be
+                    data, URLResponse in UIImage(data: data)
                 }
-            }
+                // publishes on the background threads by default - want it to be on the main queue
+                .receive(on: DispatchQueue.main)
+                // don't want it to publish errors so we don't have to deal with them in the sink modifier
+                .replaceError(with: nil)
+                // instead of sink can use publisher.assign (only works when Error is Never),
+                .assign(to: \.backgroundImage, on: self)
 
         }
         

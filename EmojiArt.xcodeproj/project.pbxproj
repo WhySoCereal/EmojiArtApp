@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B870997C2520B041002F4E60 /* Spinning.swift in Sources */ = {isa = PBXBuildFile; fileRef = B870997B2520B041002F4E60 /* Spinning.swift */; };
+		B870997F2520BE87002F4E60 /* PaletteChoser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B870997E2520BE87002F4E60 /* PaletteChoser.swift */; };
+		B87099822520C1A9002F4E60 /* EmojiArtDocumentPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87099812520C1A9002F4E60 /* EmojiArtDocumentPalette.swift */; };
+		B87099852520EEB5002F4E60 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87099842520EEB5002F4E60 /* Grid.swift */; };
+		B87099882520EEBE002F4E60 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87099872520EEBE002F4E60 /* GridLayout.swift */; };
+		B870998C25211B7B002F4E60 /* EmojiArtDocumentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B870998B25211B7B002F4E60 /* EmojiArtDocumentStore.swift */; };
+		B870998F25211EEC002F4E60 /* EmojiArtDocumentChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B870998E25211EEC002F4E60 /* EmojiArtDocumentChooser.swift */; };
+		B87099922521DBD5002F4E60 /* EditableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87099912521DBD5002F4E60 /* EditableText.swift */; };
 		B8D69DDC251B57F300137ADB /* EmojiArtApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D69DDB251B57F300137ADB /* EmojiArtApp.swift */; };
 		B8D69DDE251B57F300137ADB /* EmojiArtDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D69DDD251B57F300137ADB /* EmojiArtDocumentView.swift */; };
 		B8D69DE0251B57F400137ADB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8D69DDF251B57F400137ADB /* Assets.xcassets */; };
@@ -19,6 +27,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B870997B2520B041002F4E60 /* Spinning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinning.swift; sourceTree = "<group>"; };
+		B870997E2520BE87002F4E60 /* PaletteChoser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChoser.swift; sourceTree = "<group>"; };
+		B87099812520C1A9002F4E60 /* EmojiArtDocumentPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentPalette.swift; sourceTree = "<group>"; };
+		B87099842520EEB5002F4E60 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		B87099872520EEBE002F4E60 /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
+		B870998B25211B7B002F4E60 /* EmojiArtDocumentStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentStore.swift; sourceTree = "<group>"; };
+		B870998E25211EEC002F4E60 /* EmojiArtDocumentChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentChooser.swift; sourceTree = "<group>"; };
+		B87099912521DBD5002F4E60 /* EditableText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableText.swift; sourceTree = "<group>"; };
 		B8D69DD8251B57F300137ADB /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D69DDB251B57F300137ADB /* EmojiArtApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtApp.swift; sourceTree = "<group>"; };
 		B8D69DDD251B57F300137ADB /* EmojiArtDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentView.swift; sourceTree = "<group>"; };
@@ -65,13 +81,21 @@
 				B8D69DDB251B57F300137ADB /* EmojiArtApp.swift */,
 				B8D69DDD251B57F300137ADB /* EmojiArtDocumentView.swift */,
 				B8D69DEB251B583300137ADB /* EmojiArtDocument.swift */,
+				B870998B25211B7B002F4E60 /* EmojiArtDocumentStore.swift */,
 				B8D69DEF251B656000137ADB /* EmojiArt.swift */,
 				B8D69DFB251BDA6500137ADB /* OptionalImage.swift */,
 				B8D69DDF251B57F400137ADB /* Assets.xcassets */,
 				B8D69DE4251B57F400137ADB /* Info.plist */,
 				B8D69DFF251BDF0200137ADB /* AnimatableSystemFontModifier.swift */,
+				B87099812520C1A9002F4E60 /* EmojiArtDocumentPalette.swift */,
 				B8D69DF5251B6A0500137ADB /* EmojiArtExtensions.swift */,
 				B8D69DE1251B57F400137ADB /* Preview Content */,
+				B870997B2520B041002F4E60 /* Spinning.swift */,
+				B870997E2520BE87002F4E60 /* PaletteChoser.swift */,
+				B87099872520EEBE002F4E60 /* GridLayout.swift */,
+				B87099912521DBD5002F4E60 /* EditableText.swift */,
+				B87099842520EEB5002F4E60 /* Grid.swift */,
+				B870998E25211EEC002F4E60 /* EmojiArtDocumentChooser.swift */,
 			);
 			path = EmojiArt;
 			sourceTree = "<group>";
@@ -156,10 +180,18 @@
 				B8D69E00251BDF0200137ADB /* AnimatableSystemFontModifier.swift in Sources */,
 				B8D69DF0251B656000137ADB /* EmojiArt.swift in Sources */,
 				B8D69DF6251B6A0500137ADB /* EmojiArtExtensions.swift in Sources */,
+				B87099882520EEBE002F4E60 /* GridLayout.swift in Sources */,
 				B8D69DDE251B57F300137ADB /* EmojiArtDocumentView.swift in Sources */,
+				B87099852520EEB5002F4E60 /* Grid.swift in Sources */,
+				B870997F2520BE87002F4E60 /* PaletteChoser.swift in Sources */,
+				B87099822520C1A9002F4E60 /* EmojiArtDocumentPalette.swift in Sources */,
 				B8D69DFC251BDA6500137ADB /* OptionalImage.swift in Sources */,
+				B870998F25211EEC002F4E60 /* EmojiArtDocumentChooser.swift in Sources */,
+				B87099922521DBD5002F4E60 /* EditableText.swift in Sources */,
+				B870998C25211B7B002F4E60 /* EmojiArtDocumentStore.swift in Sources */,
 				B8D69DEC251B583300137ADB /* EmojiArtDocument.swift in Sources */,
 				B8D69DDC251B57F300137ADB /* EmojiArtApp.swift in Sources */,
+				B870997C2520B041002F4E60 /* Spinning.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
